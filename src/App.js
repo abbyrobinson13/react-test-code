@@ -11,48 +11,45 @@ function App() {
 
 const WordByWord = () => {
   const [inputtedText, setInputtedText] = useState("");
-  const [words, setWords] = useState([]);
-  const [displayIndex, setDisplayIndex] = useState(0);
+  const [arrayOfWords, setArrayOfWords] = useState([]);
+  const [word, setWord] = useState(null);
 
-  useEffect(() => {
-    // split will take the input string and split it into individual words in an array
-    const newWords = inputtedText.trim().split(/\s+/);
-    setWords(newWords);
-
-    //clears text when the input box is different
-    setDisplayIndex(0);
-  }, [inputtedText]);
-
-  useEffect(() => {
-    //make words show up every half second
-    const interval = setInterval(() => {
-      setDisplayIndex((prevIndex) => prevIndex + 1);
-    }, 500);
-
-    // clear screen when the entire sentence is finished
-    if (displayIndex === words.length) {
-      clearInterval(interval);
-    }
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, [displayIndex, words]);
-
-  const handleChange = (event) => {
-    setInputtedText(event.target.value);
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const wordsArray = inputtedText.split(" ");
+    setArrayOfWords(wordsArray);
+    setWord(1);
+    setInputtedText("");
   };
 
-  console.log(words);
+  useEffect(() => {
+    if (arrayOfWords && word < arrayOfWords.length) {
+      const time = setTimeout(() => setWord(word + 1), 500);
+      return () => clearTimeout(time);
+    }
+  }, [arrayOfWords, word]);
 
   return (
-    <div style={{ paddingTop: 40 }}>
-      <input
-        onChange={handleChange}
-        value={inputtedText}
-        style={{ width: 300 }}
-      />
-      <h2>{words.slice(0, displayIndex).join(" ")}</h2>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      <form onSubmit={onSubmit}>
+        <input
+          required
+          type="text"
+          value={inputtedText}
+          onChange={(e) => setInputtedText(e.target.value)}
+        />
+      </form>
+      <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
+        {arrayOfWords.slice(0, word).map((item) => (
+          <p style={{ paddingRight: 4 }}>{item}</p>
+        ))}
+      </div>
     </div>
   );
 };
