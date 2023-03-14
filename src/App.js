@@ -38,6 +38,8 @@ const WordByWord = () => {
       }}
     >
       <form onSubmit={onSubmit}>
+        <h1> Word by Word: By Abigail Robinson</h1>
+        <h2>Please enter a phrase: </h2>
         <input
           required
           type="text"
