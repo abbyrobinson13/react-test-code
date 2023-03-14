@@ -41,13 +41,14 @@ const WordByWord = () => {
         <input
           required
           type="text"
+          style={{ marginTop: 40, width: 300 }}
           value={inputtedText}
           onChange={(e) => setInputtedText(e.target.value)}
         />
       </form>
       <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
         {arrayOfWords.slice(0, word).map((item) => (
-          <p style={{ paddingRight: 4 }}>{item}</p>
+          <h2 style={{ paddingRight: 4 }}>{item}</h2>
         ))}
       </div>
     </div>
